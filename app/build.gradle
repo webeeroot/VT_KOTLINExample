@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
 }
+apply from: "$project.rootDir/config.gradle"
+
 
 android {
     namespace 'com.vt.kotlinexamples'
@@ -9,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.vt.kotlinexamples"
-        minSdk 21
+        minSdk 26
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -19,10 +21,58 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField 'boolean', 'LOGGING_ENABLED', 'false'
+            buildConfigField 'boolean', 'ANALYTICS_ENABLED', 'true'
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField 'boolean', 'LOGGING_ENABLED', 'true'
+            buildConfigField 'boolean', 'ANALYTICS_ENABLED', 'false'
+            testCoverageEnabled true
+        }
     }
+    flavorDimensions "default"
+
+    productFlavors {
+        uat {
+            buildConfigField 'String', 'URL_PRODUCTION', uatFlavour.URL_PRODUCTION
+            buildConfigField 'String', 'Referer', uatFlavour.Referer
+            buildConfigField 'String', 'Country_Code', conf.Country_Code
+            buildConfigField 'String', 'MATOMO_SERVER', conf.MATOMO_SERVER
+            buildConfigField 'boolean', 'SKIP_ENCRYPTION', conf.SKIP_ENCRYPTION
+        }
+        beta {
+            buildConfigField 'String', 'URL_PRODUCTION', betaFlavour.URL_PRODUCTION
+            buildConfigField 'String', 'Referer', betaFlavour.Referer
+            buildConfigField 'String', 'Country_Code', conf.Country_Code
+            buildConfigField 'String', 'MATOMO_SERVER', conf.MATOMO_SERVER
+            buildConfigField 'boolean', 'SKIP_ENCRYPTION', conf.SKIP_ENCRYPTION
+        }
+        sat {
+            buildConfigField 'String', 'URL_PRODUCTION', satFlavour.URL_PRODUCTION
+            buildConfigField 'String', 'Referer', satFlavour.Referer
+            buildConfigField 'String', 'Country_Code', conf.Country_Code
+            buildConfigField 'String', 'MATOMO_SERVER', conf.MATOMO_SERVER
+            buildConfigField 'boolean', 'SKIP_ENCRYPTION', conf.SKIP_ENCRYPTION
+        }
+        qa {
+            buildConfigField 'String', 'URL_PRODUCTION', qaFlavour.URL_PRODUCTION
+            buildConfigField 'String', 'Referer', qaFlavour.Referer
+            buildConfigField 'String', 'Country_Code', conf.Country_Code
+            buildConfigField 'String', 'MATOMO_SERVER', conf.MATOMO_SERVER
+            buildConfigField 'boolean', 'SKIP_ENCRYPTION', conf.SKIP_ENCRYPTION
+        }
+        dev {
+            buildConfigField 'String', 'URL_PRODUCTION', devFlavour.URL_PRODUCTION
+            buildConfigField 'String', 'Referer', devFlavour.Referer
+            buildConfigField 'String', 'Country_Code', conf.Country_Code
+            buildConfigField 'String', 'MATOMO_SERVER', conf.MATOMO_SERVER
+            buildConfigField 'boolean', 'SKIP_ENCRYPTION', conf.SKIP_ENCRYPTION
+        }
+    }
+
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -32,12 +82,16 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
     }
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -47,7 +101,24 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.4.0'
+
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    implementation 'org.apache.httpcomponents:httpcore:4.4.13'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.1'
+
 }
