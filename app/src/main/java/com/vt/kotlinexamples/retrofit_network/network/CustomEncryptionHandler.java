@@ -8,6 +8,7 @@ import com.vt.kotlinexamples.BuildConfig;
 //import com.coyni.common.utils.Utils;
 //import com.google.android.gms.common.util.ArrayUtils;
 import com.google.gson.Gson;
+import com.vt.kotlinexamples.Utils;
 import com.vt.kotlinexamples.retrofit_network.network.model.AbstractResponse;
 
 import org.json.JSONException;

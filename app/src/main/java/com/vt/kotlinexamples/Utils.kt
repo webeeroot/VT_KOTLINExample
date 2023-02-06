@@ -1,12 +1,15 @@
-package com.vt.kotlinexamples.retrofit_network.network
+package com.vt.kotlinexamples
 
 import android.app.Dialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.util.Patterns
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
+import com.google.android.material.textfield.TextInputLayout
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -206,10 +209,18 @@ class Utils {
         const val paySignetEnable = "token account.payment methods.signet account"
         const val allControlsEnable = "token account.all controls"
 
+
+        lateinit var errorState: Array<IntArray>
+        lateinit var state: Array<IntArray>
+        lateinit var errorColor: IntArray
+        lateinit var color: IntArray
+        lateinit var errorColorState: ColorStateList
+        lateinit var colorState: ColorStateList
+
+
         fun isValidEmail(target: String?): Boolean {
             return !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches()
         }
-
 
         fun shwForcedKeypad(context: Context) {
             val inputMethodManager =
@@ -465,6 +476,56 @@ class Utils {
                 }
             }
             return true
+        }
+
+        fun getErrorColorState(context: Context?): ColorStateList {
+            errorState = arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            )
+            errorColor = intArrayOf(
+                ContextCompat.getColor(context!!, R.color.error_red),
+                ContextCompat.getColor(context, R.color.error_red)
+            )
+            errorColorState = ColorStateList(errorState, errorColor)
+            return errorColorState
+        }
+
+        fun getNormalColorState(context: Context?): ColorStateList {
+            state = arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            )
+            color = intArrayOf(
+                ContextCompat.getColor(context!!, R.color.light_gray),
+                ContextCompat.getColor(context, R.color.light_gray)
+            )
+            colorState = ColorStateList(state, color)
+            return colorState
+        }
+
+        fun getFocusedColorState(context: Context?): ColorStateList {
+            state = arrayOf(
+                intArrayOf(-android.R.attr.state_focused),
+                intArrayOf(android.R.attr.state_focused)
+            )
+            color = intArrayOf(
+                ContextCompat.getColor(context!!, R.color.primary_green),
+                ContextCompat.getColor(context, R.color.primary_green)
+            )
+            colorState = ColorStateList(state, color)
+            return colorState
+        }
+
+        fun setUpperHintColor(til: TextInputLayout, color: Int) {
+            try {
+                val states = arrayOf(intArrayOf())
+                val colors = intArrayOf(color)
+                val myList = ColorStateList(states, colors)
+                til.defaultHintTextColor = myList
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
+            }
         }
 
     }
