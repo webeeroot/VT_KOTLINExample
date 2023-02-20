@@ -29,14 +29,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".inheritence.ChildClass"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".inheritence.ChildClass"
+            android:name=".dialogs.DialogEXActivity"
             android:exported="false"
             android:label="@string/title_activity_child_class"
             android:theme="@style/Theme.KOTLINExamples.NoActionBar">
@@ -45,7 +45,16 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".dialogs.DialogEXActivity"
+            android:name=".listeners.SecondActivity"
+            android:exported="false"
+            android:label="@string/title_activity_child_class"
+            android:theme="@style/Theme.KOTLINExamples.NoActionBar">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".listeners.FirstActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.vt.kotlinexamples.R
 import com.vt.kotlinexamples.databinding.FragmentFirstBinding
+import com.vt.kotlinexamples.dialogs.OnDialogClickListener
+import com.vt.kotlinexamples.dialogs.TestDialog
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -33,7 +35,15 @@ private var _binding: FragmentFirstBinding? = null
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+//            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            val dialog = TestDialog(requireContext())
+            dialog.show()
+            dialog.onDialogClickListener = object : OnDialogClickListener {
+                override fun onDialogClicked(action: String?, value: Any?) {
+                    println("action")
+                    println(action)
+                }
+            }
         }
     }
 
