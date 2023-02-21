@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcel
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.vt.kotlinexamples.MyApp
 import com.vt.kotlinexamples.R
 
 class FirstActivity : AppCompatActivity() {
@@ -12,15 +13,16 @@ class FirstActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val listener = object : MyListener {
+        val myApp = applicationContext as MyApp
+        myApp.myListener = object : MyListener {
             override fun onEventOccurred(data: String) {
                 // Handle the event here
-                Log.e("LOG",data)
+                Log.e("data", data)
+                finish()
             }
         }
 
         val intent = Intent(this, SecondActivity::class.java)
-        intent.putExtra("listener", listener)
         startActivity(intent)
     }
 }
